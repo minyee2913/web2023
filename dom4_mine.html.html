@@ -42,20 +42,29 @@
         function genGrid() {
             grid.innerHTML = "";
             for (let i = 0; i < 8; i++) {
-                //
+                const tr = document.createElement("tr");
+
                 for (var j = 0; j < 8; j++) {
-                    //
+                    const td = document.createElement("td");
+                    let isMine = false; 
+
                     if (Math.random() < 0.3)
-                        mine.value = "true";
-                    else
-                        mine.value = "false";
+                        isMine = true;
+
+                    td.onclick = ()=>{
+                        clickBox(td, isMine);
+                    };
+
+                    tr.appendChild(td);
                 }
-                cell.setAttributeNode(mine);
+
+                grid.appendChild(tr);
             }
         }
 
-        function clickBox(cell) {
-            if (cell.getAttribute("mine") == "true") {
+        function clickBox(cell, isMine) {
+            console.log(isMine);
+            if (isMine) {
                 cell.className = "mine";
                 alert("게임이 종료되었습니다.");
             } else {
