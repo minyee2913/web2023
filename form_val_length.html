@@ -1,0 +1,29 @@
+﻿<script>
+    function checkLength(elem, min, max) {
+        let s = elem.value;
+
+        if (s.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/ ]/gi, "") !== s) {
+            alert("특수문자가 포함되어있습니다.");
+
+            return;
+        }
+
+        if (s.replace(/[0-9]/gi, "") !== s) {
+            alert("숫자가 포함되어있습니다.");
+
+            return;
+        }
+
+        if (s.length < min || s.length > max) {
+            alert("문자 수가 범위를 벗어났습니다!");
+
+            return;
+        }
+    }
+</script>
+<form>
+    이름(6-8 문자 / 숫자, 특수문자 금지): <input type='text' id='name' />
+    <input type='button'
+        onclick="checkLength(document.getElementById('name'), 6, 8)"
+        value='확인' />
+</form>
