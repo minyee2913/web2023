@@ -7,15 +7,17 @@
     <p id="result"></p>
     <script>
         function sub() {
-            let value = document.getElementById("test").value;
+            let value = Number(document.getElementById("test").value);
             let s;
 
-            if (isNaN(Number(value))) {
+            if (isNaN(value) 
+                || value < 1 
+                || value > 100
+            ) {
                 s = "입력값이 올바르지 않습니다.";
             } else {
                 s = "올바른 입력값입니다.";
             }
-
             document.getElementById("result").innerHTML = s;
         }
     </script>
