@@ -5,7 +5,7 @@
     <script>
         let id;
         function changeColor() {
-            id = //
+            id = setInterval(flashText, 300);
         }
         function flashText() {
             let elem = document.getElementById("target");
@@ -15,15 +15,15 @@
 
         }
         function stopTextColor() {
-           //;
+           clearInterval(id);
         }
     </script>
 </head>
 
-<body onload="//">
+<body onload="changeColor()">
     <div id="target">
         <p>This is a Text.</p>
     </div>
-    <button onclick="//">중지</button>
+    <button onclick="stopTextColor()">중지</button>
 </body>
 </html>
