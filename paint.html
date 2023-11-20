@@ -7,33 +7,76 @@ border: 1px dotted blue;
 }
 </style>
 <body>
-<button onclick="context.clearRect(0, 0, canvas.width, canvas.height);">화면 지우기</button><br>
+<button onclick="context.clearRect(0, 0, canvas.width, canvas.height);">화면 지우기</button>
+브러쉬 색: 
+<input type="color" id="col", onchange="onChangeColor(this)">
+모드: 
+<select id="modeVal" onchange="onChangeMode(this);">
+    <option value="brush">브러쉬</option>
+    <option value="eraser">지우개</option>
+</select>
+브러쉬 크기: 
+<input type="number", id="brushSize" value="10" onchange="onChangeSize(this);">
+
+<br>
 <canvas id="myCanvas" width="600" height="400"></canvas>
 <script>
 let canvas = document.getElementById("myCanvas");
 let context = canvas.getContext("2d");
 let last_x = 0, last_y = 0;
-let draw_mode = false;
+let mode = "brush";
+let size = 10;
+let interacting = false;
+
+function onChangeSize(e) {
+    size = e.value;
+}
+
+//색 변경
+function onChangeColor(e) {
+    context.strokeStyle = e.value;
+}
+
+//모드 변경
+function onChangeMode(e) {
+    mode = e.value;
+
+    if (mode === "brush") document.body.style.backgroundColor = "white";
+    else if (mode === "eraser") document.body.style.backgroundColor = "lightblue";
+}
+
 canvas.addEventListener("mousemove", function (event) {
-if (!draw_mode) return;
-let x = event.offsetX;
-let y = event.offsetY;
-context.lineTo(x, y);
-context.stroke();
-last_x = x;
-last_y = y;
+    if (!interacting) return;
+
+    let x = event.offsetX;
+    let y = event.offsetY;
+
+    //모드가 브러쉬일때
+    if (mode === "brush") {
+        context.lineTo(x, y);
+        context.lineWidth = size;
+        context.stroke();
+    } else if (mode === "eraser") {
+        context.clearRect(x, y, size, size);
+    }
+
+    last_x = x;
+    last_y = y;
 });
+
 canvas.addEventListener("mousedown", function (event) {
-last_x = event.offsetX;
-last_y = event.offsetY;
-context.beginPath();
-context.moveTo(last_x, last_y);
-draw_mode = true;
+    last_x = event.offsetX;
+    last_y = event.offsetY;
+    context.beginPath();
+    context.moveTo(last_x, last_y);
+    interacting = true;
 });
+
 canvas.addEventListener("mouseup", function (event) {
-draw_mode = false;
+    interacting = false;
 });
+
 canvas.addEventListener("mouseout", function (event) {
-draw_mode = false;
+    interacting = false;
 });
 </script>
